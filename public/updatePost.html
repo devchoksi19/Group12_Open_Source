@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Update Post</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="header">Update Post</div>
+
+<div class="form-box">
+
+<input id="title" placeholder="New title">
+
+<textarea id="content" placeholder="New content"></textarea>
+
+<button onclick="updatePost()">Update</button>
+
+</div>
+
+<script>
+
+const params=new URLSearchParams(window.location.search)
+const id=params.get("id")
+
+async function updatePost(){
+
+const title=document.getElementById("title").value
+const content=document.getElementById("content").value
+
+const token=localStorage.getItem("token")
+
+await fetch(`http://localhost:3000/api/posts/${id}`,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
+},
+
+body:JSON.stringify({
+title,
+content
+})
+
+})
+
+alert("Post updated")
+
+window.location.href="posts.html"
+
+}
+
+</script>
+
+</body>
+</html>

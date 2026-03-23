@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>View Post</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="loadPost()">
+
+<div class="container">
+
+<div class="forum-box">
+
+<div class="forum-header">Post Details</div>
+
+<div style="padding:20px">
+
+<h2 id="title"></h2>
+
+<p id="content"></p>
+
+<br>
+
+<button onclick="goBack()">Back to Posts</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search)
+
+const id = params.get("id")
+
+async function loadPost(){
+
+const response = await fetch(`http://localhost:3000/api/posts/${id}`)
+
+const post = await response.json()
+
+document.getElementById("title").innerText = post.title
+document.getElementById("content").innerText = post.content
+
+}
+
+function goBack(){
+window.location="posts.html"
+}
+
+</script>
+
+</body>
+</html>

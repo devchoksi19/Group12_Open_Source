@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Forum Website</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="loadPosts()">
+
+<div class="container">
+
+<div class="forum-box">
+
+<div class="forum-header">
+Programming and Development Help
+<button class="create-btn" onclick="window.location='createPost.html'">Create Post</button>
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Title</th>
+<th>Threads / Posts</th>
+<th>Last Post</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="posts"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadPosts(){
+
+const response = await fetch("http://localhost:3000/api/posts")
+
+const posts = await response.json()
+
+let html=""
+
+posts.forEach(post=>{
+
+html+=`
+
+<tr>
+
+<td>
+
+<div class="title">
+<a href="singlePost.html?id=${post._id}" class="post-link">
+${post.title}
+</a>
+</div>
+
+<div class="desc">${post.content}</div>
+
+</td>
+
+<td class="stats">
+
+Threads: 1 <br>
+Posts: 1
+
+</td>
+
+<td class="last-post">
+
+${new Date(post.createdAt || Date.now()).toLocaleString()}
+
+</td>
+
+<td>
+
+<button onclick="editPost('${post._id}')">Edit</button>
+
+<button onclick="deletePost('${post._id}')">Delete</button>
+
+</td>
+
+</tr>
+
+`
+
+})
+
+document.getElementById("posts").innerHTML=html
+
+}
+
+function editPost(id){
+window.location="updatePost.html?id="+id
+}
+
+function deletePost(id){
+window.location="deletePost.html?id="+id
+}
+
+</script>
+
+</body>
+
+</html>
